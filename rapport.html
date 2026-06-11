@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="author" content="Équipe BookLens">
+    <meta name="author" content="Anass El Hayel, Salaheddine El Azouti">
     <meta name="description" content="Rapport du projet BookLens — explorateur de livres, cours Applications Web, CentraleSupélec">
     <title>Rapport de projet — BookLens</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+Pro:wght@300;400;600&display=swap');
         :root {
             --brown-dark: #3e2723;
             --brown: #6d4c41;
@@ -22,11 +23,12 @@
         * { box-sizing: border-box; }
 
         body {
-            font-family: Georgia, "Times New Roman", serif;
+            font-family: 'Libre Baskerville', Georgia, "Times New Roman", serif;
             background: var(--cream);
             color: var(--text);
-            line-height: 1.7;
+            line-height: 1.8;
             margin: 0;
+            font-size: 15px;
         }
 
         .page {
@@ -156,14 +158,79 @@
             margin-top: 3rem;
             padding-top: 1.2rem;
         }
+
+        .repartition-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.2rem;
+            margin: 1rem 0;
+        }
+        .repartition-grid > div {
+            background: var(--paper);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem 1.2rem;
+        }
+        .repartition-grid h4 {
+            color: var(--brown-dark);
+            margin: 0 0 0.5rem;
+            font-size: 1rem;
+        }
+        .repartition-grid ul { margin: 0; padding-left: 1.2rem; font-size: 0.92rem; }
+
+        .schema-archi {
+            background: var(--paper);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 1.5rem 2rem;
+            text-align: center;
+            margin: 1.2rem 0;
+            font-family: 'Source Sans Pro', sans-serif;
+            font-size: 0.9rem;
+            line-height: 2;
+        }
+        .schema-archi .box {
+            display: inline-block;
+            background: var(--brown);
+            color: var(--cream);
+            border-radius: 6px;
+            padding: 0.25rem 0.8rem;
+            margin: 0.2rem;
+        }
+        .schema-archi .box-gold {
+            display: inline-block;
+            background: var(--gold);
+            color: var(--brown-dark);
+            border-radius: 6px;
+            padding: 0.25rem 0.8rem;
+            margin: 0.2rem;
+            font-weight: 600;
+        }
+        .schema-archi .arrow { color: var(--muted); margin: 0 0.3rem; }
+
+        blockquote {
+            border-left: 4px solid var(--gold);
+            margin: 1.2rem 0;
+            padding: 0.6rem 1rem;
+            background: var(--paper);
+            font-style: italic;
+            color: var(--muted);
+        }
+
+        @media (max-width: 700px) {
+            .repartition-grid { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
 
 <header class="report-header">
+    <p style="margin-bottom:0.8rem;font-size:0.85rem;letter-spacing:1px;text-transform:uppercase;color:#c4b8a8;">CentraleSupélec — 2<sup>e</sup> année</p>
     <h1><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg> Book<span>Lens</span></h1>
-    <p>Rapport de projet — Cours Applications Web</p>
-    <p>CentraleSupélec, 2<sup>e</sup> année · Semaine du 8 au 12 juin 2026</p>
+    <p style="font-size:1.1rem;margin-top:0.2rem;">Rapport de projet — Applications Web</p>
+    <hr style="border:none;border-top:1px solid rgba(255,255,255,0.2);margin:1rem 6rem;">
+    <p style="font-size:0.95rem;"><strong>Anass El Hayel</strong> &amp; <strong>Salaheddine El Azouti</strong></p>
+    <p style="font-size:0.82rem;color:#c4b8a8;">Semaine bloquée du 8 au 12 juin 2026</p>
 </header>
 
 <div class="page">
@@ -171,7 +238,7 @@
     <nav class="toc" aria-label="Sommaire">
         <h2>Sommaire</h2>
         <ol>
-            <li><a href="#introduction">Introduction et objectifs</a></li>
+            <li><a href="#introduction">Introduction et contexte</a></li>
             <li><a href="#architecture">Architecture de l'application</a></li>
             <li><a href="#api">L'API Open Library</a></li>
             <li><a href="#fonctionnalites">Fonctionnalités réalisées</a></li>
@@ -179,33 +246,46 @@
             <li><a href="#design">Design et responsive</a></li>
             <li><a href="#difficultes">Difficultés rencontrées et solutions</a></li>
             <li><a href="#ameliorations">Pistes d'amélioration</a></li>
-            <li><a href="#conclusion">Conclusion</a></li>
+            <li><a href="#conclusion">Conclusion et bilan personnel</a></li>
             <li><a href="#references">Références</a></li>
         </ol>
     </nav>
 
     <section id="introduction">
-        <h2>1. Introduction et objectifs</h2>
+        <h2>1. Introduction et contexte</h2>
         <p>
-            <strong>BookLens</strong> est un explorateur de livres développé dans le cadre du cours
-            <em>Applications Web</em>. L'application permet de rechercher des livres parmi les millions
-            de références de l'<a href="https://openlibrary.org">Open Library</a> (projet de l'Internet
-            Archive), de consulter leur fiche détaillée et de se constituer une bibliothèque personnelle.
+            Dans le cadre du module <em>Applications Web</em> de deuxième année à CentraleSupélec,
+            il nous a été demandé de concevoir et développer en une semaine bloquée une application
+            web fonctionnelle consommant une API REST publique. Le projet devait être livré accompagné
+            d'un rapport HTML5 et d'une présentation orale sous Reveal.js.
         </p>
-        <p>Le cahier des charges imposait les contraintes techniques suivantes :</p>
+        <p>
+            Nous avons choisi de réaliser <strong>BookLens</strong>, un explorateur de livres
+            s'appuyant sur la base de données ouverte <a href="https://openlibrary.org">Open Library</a>
+            (projet de l'Internet Archive, plus de 40 millions de notices bibliographiques).
+            L'idée est née d'un constat simple : les catalogues en ligne existants sont souvent lourds
+            et peu adaptés à une consultation rapide depuis un mobile. Nous voulions proposer une
+            interface épurée, rapide et agréable, permettant de chercher un livre, d'en consulter
+            la fiche complète et de se constituer une bibliothèque personnelle — le tout sans la moindre
+            inscription.
+        </p>
+
+        <h3>Contraintes du cahier des charges</h3>
+        <p>Le sujet imposait un certain nombre de contraintes techniques que nous avons respectées scrupuleusement :</p>
         <ul class="checklist">
-            <li>HTML5, CSS3 et JavaScript <strong>vanilla</strong> uniquement (aucun framework type React ou Vue) ;</li>
-            <li>appels à l'API en <strong>AJAX</strong> (ici via <code>fetch()</code> et <code>async/await</code>) ;</li>
+            <li>HTML5, CSS3 et JavaScript <strong>vanilla</strong> uniquement — aucun framework (React, Vue, etc.) ;</li>
+            <li>appels à l'API en <strong>AJAX</strong> via <code>fetch()</code> et <code>async/await</code> ;</li>
             <li>aucun backend : l'application tourne entièrement <strong>côté client</strong> ;</li>
-            <li>persistance des favoris dans le <strong>localStorage</strong> du navigateur ;</li>
-            <li>design <strong>responsive</strong> et moderne.</li>
+            <li>persistance des données utilisateur dans le <strong>localStorage</strong> du navigateur ;</li>
+            <li>design <strong>responsive</strong>, fonctionnel aussi bien sur desktop que sur mobile.</li>
         </ul>
     </section>
 
     <section id="architecture">
         <h2>2. Architecture de l'application</h2>
         <p>
-            L'application est composée de trois pages HTML, d'une feuille de style unique et de quatre
+            Avant d'écrire la moindre ligne de code, nous avons pris le temps de définir l'architecture
+            globale du projet. L'application est composée de trois pages HTML, d'une feuille de style unique et de quatre
             fichiers JavaScript. La structure suit un principe simple : <strong>un fichier JS par page</strong>
             (le « contrôleur » de la page), plus un module commun <code>api.js</code> chargé sur les trois pages.
         </p>
@@ -229,6 +309,27 @@
             <code>getCoverUrl</code>) ainsi que les utilitaires partagés : gestion des favoris en
             localStorage, génération d'icônes SVG, bascule de thème et échappement HTML.
             Cette factorisation évite toute duplication entre les trois pages.
+        </p>
+
+        <h3>Schéma d'architecture simplifié</h3>
+        <div class="schema-archi">
+            <span class="box">Navigateur (client)</span>
+            <span class="arrow">&#8594;</span>
+            <span class="box-gold">fetch() / AJAX</span>
+            <span class="arrow">&#8594;</span>
+            <span class="box">API Open Library</span><br>
+            <span class="box">index.html</span>
+            <span class="box">book.html</span>
+            <span class="box">bookshelf.html</span>
+            <span class="arrow">&#8592;</span>
+            <span class="box-gold">api.js (couche commune)</span>
+            <span class="arrow">&#8594;</span>
+            <span class="box">localStorage</span>
+        </div>
+        <p>
+            Ce schéma illustre le flux de données : les trois pages partagent <code>api.js</code> comme
+            point d'entrée unique vers l'API distante et le stockage local. Il n'y a aucun serveur
+            intermédiaire.
         </p>
     </section>
 
@@ -275,7 +376,13 @@
                 </tr>
             </tbody>
         </table>
-        <p>Exemple d'appel AJAX avec <code>fetch()</code> et gestion d'erreur :</p>
+        <p>
+            Lors de nos premiers tests, nous avons constaté que les réponses de l'API pouvaient varier
+            sensiblement d'une requête à l'autre : certains champs sont optionnels, la description peut
+            être une chaîne ou un objet, et les noms d'auteurs n'apparaissent pas dans tous les endpoints.
+            Cela a guidé plusieurs de nos choix d'implémentation (voir section 5).
+        </p>
+        <p>Voici un exemple concret d'appel AJAX avec <code>fetch()</code> et gestion d'erreur :</p>
         <pre><code>async function searchBooks(query, type = "q", limit = 20, page = 1, sort = "") {
     const param = ["title", "author"].includes(type) ? type : "q";
     let url = `${OL_BASE}/search.json?${param}=${encodeURIComponent(query)}`
@@ -293,6 +400,10 @@
 
     <section id="fonctionnalites">
         <h2>4. Fonctionnalités réalisées</h2>
+        <p>
+            Cette section détaille les fonctionnalités page par page. Chaque page correspond à un
+            cas d'usage précis de l'application.
+        </p>
 
         <h3>4.1 Page de recherche (<code>index.html</code>)</h3>
         <ul>
@@ -337,6 +448,10 @@
 
     <section id="implementation">
         <h2>5. Choix d'implémentation</h2>
+        <p>
+            Au-delà des fonctionnalités visibles, plusieurs décisions techniques méritent d'être
+            expliquées car elles ont un impact direct sur la robustesse et la maintenabilité du code.
+        </p>
 
         <h3>5.1 Persistance avec localStorage</h3>
         <p>
@@ -413,6 +528,11 @@
 
     <section id="difficultes">
         <h2>7. Difficultés rencontrées et solutions</h2>
+        <p>
+            Le développement n'a pas été exempt de difficultés. Le tableau ci-dessous résume
+            les principaux obstacles rencontrés et les stratégies que nous avons mises en œuvre
+            pour les surmonter.
+        </p>
         <table>
             <thead>
                 <tr><th>Difficulté</th><th>Solution mise en place</th></tr>
@@ -448,6 +568,10 @@
 
     <section id="ameliorations">
         <h2>8. Pistes d'amélioration</h2>
+        <p>
+            Malgré le périmètre fonctionnel déjà couvert, nous avons identifié plusieurs axes
+            d'évolution que le temps imparti ne nous a pas permis d'explorer :
+        </p>
         <ul>
             <li>suggestions de recherche en temps réel (autocomplétion avec <em>debounce</em>) ;</li>
             <li>notes et commentaires personnels sur les livres de la bibliothèque ;</li>
@@ -459,17 +583,31 @@
     </section>
 
     <section id="conclusion">
-        <h2>9. Conclusion</h2>
+        <h2>9. Conclusion et bilan personnel</h2>
         <p>
             BookLens remplit l'intégralité du cahier des charges — recherche AJAX, fiche détaillée,
             bibliothèque persistante, design responsive — et va au-delà avec le tri, la pagination,
-            les tendances du jour, les statuts de lecture et le mode sombre. Le projet nous a permis
-            de mettre en pratique les fondamentaux du web côté client : manipulation du DOM,
+            les tendances du jour, les statuts de lecture et le mode sombre.
+        </p>
+        <p>
+            Sur le plan technique, ce projet nous a permis de consolider notre maîtrise des
+            fondamentaux du développement web côté client : manipulation du DOM,
             programmation asynchrone (<code>fetch</code>, <code>async/await</code>,
             <code>Promise.all</code>), persistance navigateur (localStorage, sessionStorage) et
             CSS moderne (variables, grid, media queries), le tout <strong>sans aucune dépendance
             JavaScript externe</strong>.
         </p>
+        <p>
+            Sur le plan humain, le travail en binôme avec Git nous a confrontés aux réalités du
+            développement collaboratif : gestion des branches, résolution de conflits de merge,
+            communication sur les choix d'implémentation. Ces compétences, tout aussi importantes
+            que le code lui-même, seront directement réutilisables dans nos futurs projets.
+        </p>
+        <blockquote>
+            « Le plus formateur dans ce projet n'a pas été d'apprendre une nouvelle API, mais de
+            comprendre comment structurer du code pour qu'un autre développeur puisse le lire,
+            le modifier et l'améliorer. »
+        </blockquote>
     </section>
 
     <section id="references">
@@ -486,6 +624,7 @@
 
     <footer class="report-footer">
         <p>BookLens — Projet Applications Web · CentraleSupélec · Juin 2026<br>
+        Anass El Hayel &amp; Salaheddine El Azouti<br>
         Dépôt : <a href="https://github.com/AnassElhayel0401/BookLens">github.com/AnassElhayel0401/BookLens</a></p>
     </footer>
 

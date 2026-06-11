@@ -127,6 +127,24 @@
         .reveal svg.i.accent { stroke: var(--bl-accent); }
         .reveal svg.i.green { stroke: #2e7d32; }
         .title-slide svg.i { width: 1em; height: 1em; stroke: var(--bl-gold); }
+
+        /* Iframes de démo live */
+        .app-frame {
+            width: 95%;
+            height: 520px;
+            border: 2px solid var(--bl-brown);
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(62, 39, 35, 0.25);
+            margin: 0.4em auto 0;
+            display: block;
+            background: #fff;
+        }
+
+        .frame-label {
+            font-size: 0.5em;
+            color: var(--bl-muted, #8a7a70);
+            margin-top: 0.3em;
+        }
     </style>
 </head>
 <body>
@@ -157,6 +175,7 @@
                 <h3>Un explorateur de livres en JavaScript vanilla</h3>
                 <p class="small">
                     Projet Applications Web — CentraleSupélec, 2A<br>
+                    <strong>Anass El Hayel</strong> &amp; <strong>Salaheddine El Azouti</strong><br>
                     Juin 2026 · API Open Library
                 </p>
             </section>
@@ -259,6 +278,13 @@ BookLens/
                 </ul>
             </section>
 
+            <!-- 6b. Aperçu live : page de recherche -->
+            <section>
+                <h2>Aperçu — Recherche</h2>
+                <iframe class="app-frame" src="index.html" loading="lazy"></iframe>
+                <p class="frame-label">Page d’accueil avec tendances du jour et barre de recherche</p>
+            </section>
+
             <!-- 7. Fonctionnalités : détail + bibliothèque -->
             <section>
                 <h2>Détail &amp; bibliothèque</h2>
@@ -283,6 +309,20 @@ BookLens/
                         </ul>
                     </div>
                 </div>
+            </section>
+
+            <!-- 7b. Aperçu live : fiche détail -->
+            <section>
+                <h2>Aperçu — Fiche livre</h2>
+                <iframe class="app-frame" src="book.html?id=OL45804W" loading="lazy"></iframe>
+                <p class="frame-label">Fiche détaillée avec couverture HD, description et sujets</p>
+            </section>
+
+            <!-- 7c. Aperçu live : bibliothèque -->
+            <section>
+                <h2>Aperçu — Ma Bibliothèque</h2>
+                <iframe class="app-frame" src="bookshelf.html" loading="lazy"></iframe>
+                <p class="frame-label">Bibliothèque personnelle avec filtres et statuts de lecture</p>
             </section>
 
             <!-- 8. Zoom AJAX -->
