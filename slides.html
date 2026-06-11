@@ -145,6 +145,29 @@
             color: var(--bl-muted, #8a7a70);
             margin-top: 0.3em;
         }
+
+        .slide-img {
+            max-height: 350px;
+            border-radius: 12px;
+            box-shadow: 0 6px 24px rgba(62,39,35,0.2);
+            margin: 0.5em auto;
+            display: block;
+        }
+
+        .title-img {
+            max-height: 220px;
+            border-radius: 10px;
+            margin: 0.6em auto 0;
+            margin-left: auto;
+            margin-right: auto;
+            display: block;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+            text-align: center;
+        }
+
+        .title-slide {
+            text-align: center !important;
+        }
     </style>
 </head>
 <body>
@@ -172,9 +195,10 @@
             <!-- 1. Titre -->
             <section class="title-slide">
                 <p class="logo-big"><svg class="i"><use href="#i-book"/></svg> Book<span>Lens</span></p>
+                <img src="img/WhatsApp Image 2026-06-11 at 22.20.19.jpeg" alt="BookLens" style="max-height:350px;border-radius:12px;box-shadow:0 4px 16px rgba(0,0,0,0.3);margin:0.6em auto;display:block;width:auto;">
                 <h3>Un explorateur de livres en JavaScript vanilla</h3>
                 <p class="small">
-                    Projet Applications Web — CentraleSupélec, 2A<br>
+                    Développement d’applications web et mobile — CentraleSupélec, 2A<br>
                     <strong>Anass El Hayel</strong> &amp; <strong>Salaheddine El Azouti</strong><br>
                     Juin 2026 · API Open Library
                 </p>
@@ -185,19 +209,20 @@
                 <h2>Sommaire</h2>
                 <ol>
                     <li>Contexte &amp; objectifs</li>
-                    <li>Architecture de l'application</li>
-                    <li>L'API Open Library</li>
-                    <li>Fonctionnalités</li>
+                    <li>Architecture de l’application</li>
+                    <li>L’API Open Library</li>
+                    <li>Fonctionnalités &amp; démos live</li>
                     <li>Zoom technique : AJAX &amp; localStorage</li>
                     <li>Design &amp; responsive</li>
-                    <li>Difficultés rencontrées</li>
-                    <li>Démonstration &amp; conclusion</li>
+                    <li>Conclusion</li>
                 </ol>
             </section>
 
             <!-- 3. Contexte -->
             <section>
                 <h2>Contexte &amp; objectifs</h2>
+                <div style="display:flex;align-items:center;gap:1.5rem;">
+                <div>
                 <p>Construire une application web <strong>100&nbsp;% côté client</strong> consommant une API REST publique.</p>
                 <ul>
                     <li><svg class="i gold"><use href="#i-chevron"/></svg> Rechercher des livres parmi des millions de références</li>
@@ -213,6 +238,9 @@
                     <span class="pill">Pas de framework</span>
                     <span class="pill">Pas de backend</span>
                 </p>
+                </div>
+                <img class="slide-img" src="img/hero-illustration.jpeg" alt="Illustration BookLens" style="max-height:300px;flex-shrink:0;">
+                </div>
             </section>
 
             <!-- 4. Architecture -->
@@ -382,32 +410,7 @@ function addFavorite(book) {
                 </ul>
             </section>
 
-            <!-- 11. Difficultés -->
-            <section>
-                <h2>Difficultés rencontrées</h2>
-                <ul class="small">
-                    <li><strong>Données hétérogènes</strong> : la description d'une œuvre est tantôt une chaîne, tantôt un objet <code>{value}</code> ; champs souvent absents (couverture, note, année)</li>
-                    <li><strong>Deux formats de réponse</strong> : <code>/search.json</code> donne les noms d'auteurs, <code>/works/{id}.json</code> seulement leurs clés → cache <code>sessionStorage</code> + appel <code>/authors/{id}.json</code> en secours</li>
-                    <li><strong>Note moyenne</strong> : pas toujours dans la recherche → endpoint <code>/ratings.json</code> en complément</li>
-                    <li><strong>Sécurité</strong> : tout texte issu de l'API est échappé (<code>escapeHtml</code>) avant insertion dans le DOM (anti-XSS)</li>
-                    <li><strong>UX asynchrone</strong> : états chargement / vide / erreur sur chaque page</li>
-                </ul>
-            </section>
-
-            <!-- 12. Démo -->
-            <section>
-                <h2>Démonstration</h2>
-                <p><svg class="i accent"><use href="#i-arrow"/></svg> <a href="index.html" target="_blank">Ouvrir BookLens</a></p>
-                <ol class="small">
-                    <li>Tendances du jour sur la page d'accueil</li>
-                    <li>Recherche « Dune » par titre, tri par note</li>
-                    <li>Fiche détail : description, étoiles, sujets cliquables</li>
-                    <li>Ajout à la bibliothèque, changement de statut de lecture</li>
-                    <li>Mode sombre <svg class="i"><use href="#i-moon"/></svg></li>
-                </ol>
-            </section>
-
-            <!-- 13. Conclusion -->
+            <!-- 11. Conclusion -->
             <section>
                 <h2>Conclusion</h2>
                 <ul>
