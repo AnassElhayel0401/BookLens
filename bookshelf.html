@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ma Bibliothèque — BookLens</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="index.html" class="logo">📖 Book<span>Lens</span></a>
+            <nav class="main-nav">
+                <a href="index.html" class="nav-link">Recherche</a>
+                <a href="bookshelf.html" class="nav-link active">Ma Bibliothèque <span id="fav-count" class="badge"></span></a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero hero-small">
+        <div class="container">
+            <h1>📚 Ma Bibliothèque</h1>
+            <p class="hero-subtitle" id="shelf-subtitle"></p>
+        </div>
+    </section>
+
+    <main class="container">
+        <div id="empty-shelf" class="status status-empty" hidden>
+            Votre bibliothèque est vide pour le moment.<br>
+            <a href="index.html" class="btn btn-primary" style="margin-top: 1rem; display: inline-block;">Découvrir des livres</a>
+        </div>
+        <div id="shelf" class="book-grid"></div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>BookLens — Projet Applications Web · CentraleSupélec 2026 ·
+               Données : <a href="https://openlibrary.org" target="_blank" rel="noopener">Open Library</a></p>
+        </div>
+    </footer>
+
+    <script src="js/api.js"></script>
+    <script src="js/bookshelf.js"></script>
+</body>
+</html>

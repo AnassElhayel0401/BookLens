@@ -1,0 +1,519 @@
+/* ============================================================
+   BookLens — style.css
+   Palette chaude "bibliothèque" : bois, cuir, papier crème
+   ============================================================ */
+
+:root {
+    --brown-dark: #3e2723;
+    --brown: #6d4c41;
+    --brown-light: #8d6e63;
+    --accent: #c0392b;
+    --gold: #d4a017;
+    --cream: #faf6ef;
+    --paper: #fffdf8;
+    --text: #3b2f2a;
+    --muted: #8a7a70;
+    --shadow: 0 2px 10px rgba(62, 39, 35, 0.12);
+    --shadow-hover: 0 8px 24px rgba(62, 39, 35, 0.22);
+    --radius: 10px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Georgia, "Times New Roman", serif;
+    background-color: var(--cream);
+    color: var(--text);
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.container {
+    width: min(1100px, 92%);
+    margin: 0 auto;
+}
+
+main.container {
+    flex: 1;
+    padding: 2rem 0 3rem;
+}
+
+a {
+    color: var(--accent);
+}
+
+/* ---------- En-tête ---------- */
+
+.site-header {
+    background: linear-gradient(135deg, var(--brown-dark), var(--brown));
+    box-shadow: var(--shadow);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.header-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.9rem 0;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--cream);
+    text-decoration: none;
+    letter-spacing: 0.5px;
+}
+
+.logo span {
+    color: var(--gold);
+}
+
+.main-nav {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.nav-link {
+    color: var(--cream);
+    text-decoration: none;
+    padding: 0.45rem 0.9rem;
+    border-radius: 999px;
+    transition: background 0.2s;
+    font-size: 0.95rem;
+}
+
+.nav-link:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.nav-link.active {
+    background: rgba(212, 160, 23, 0.25);
+    color: var(--gold);
+}
+
+.badge {
+    background: var(--accent);
+    color: #fff;
+    border-radius: 999px;
+    padding: 0 0.45rem;
+    font-size: 0.78rem;
+    font-family: sans-serif;
+}
+
+.badge:empty {
+    display: none;
+}
+
+/* ---------- Bandeau (hero) ---------- */
+
+.hero {
+    background:
+        linear-gradient(rgba(62, 39, 35, 0.88), rgba(109, 76, 65, 0.88)),
+        repeating-linear-gradient(90deg, #5d4037 0 28px, #4e342e 28px 56px, #6d4c41 56px 84px);
+    color: var(--cream);
+    text-align: center;
+    padding: 3.2rem 1rem;
+}
+
+.hero-small {
+    padding: 2rem 1rem;
+}
+
+.hero h1 {
+    font-size: clamp(1.7rem, 4vw, 2.6rem);
+    margin-bottom: 0.4rem;
+}
+
+.hero-subtitle {
+    color: #e8ddd0;
+    margin-bottom: 1.6rem;
+    font-style: italic;
+}
+
+/* ---------- Formulaire de recherche ---------- */
+
+.search-form {
+    display: flex;
+    gap: 0.6rem;
+    max-width: 640px;
+    margin: 0 auto;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.search-form select,
+.search-form input {
+    padding: 0.75rem 1rem;
+    border: 2px solid transparent;
+    border-radius: var(--radius);
+    font-size: 1rem;
+    font-family: inherit;
+    background: var(--paper);
+    color: var(--text);
+}
+
+.search-form input {
+    flex: 1;
+    min-width: 220px;
+}
+
+.search-form select:focus,
+.search-form input:focus {
+    outline: none;
+    border-color: var(--gold);
+}
+
+/* ---------- Boutons ---------- */
+
+.btn {
+    padding: 0.75rem 1.4rem;
+    border: none;
+    border-radius: var(--radius);
+    font-size: 1rem;
+    font-family: inherit;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    text-decoration: none;
+}
+
+.btn:active {
+    transform: scale(0.98);
+}
+
+.btn-primary {
+    background: var(--accent);
+    color: #fff;
+}
+
+.btn-primary:hover {
+    background: #a93226;
+}
+
+.btn-saved {
+    background: #2e7d32;
+}
+
+.btn-saved:hover {
+    background: #1b5e20;
+}
+
+.btn-block {
+    display: block;
+    width: 100%;
+    margin-top: 1rem;
+}
+
+.btn-remove {
+    background: transparent;
+    color: var(--accent);
+    border: 1.5px solid var(--accent);
+    width: 100%;
+    border-radius: 0 0 var(--radius) var(--radius);
+    border-left: none;
+    border-right: none;
+    border-bottom: none;
+    padding: 0.55rem;
+    font-size: 0.9rem;
+}
+
+.btn-remove:hover {
+    background: var(--accent);
+    color: #fff;
+}
+
+/* ---------- Messages d'état ---------- */
+
+.status {
+    text-align: center;
+    padding: 2.5rem 1rem;
+    font-size: 1.1rem;
+    color: var(--muted);
+}
+
+.status-error {
+    color: var(--accent);
+}
+
+.spinner {
+    display: inline-block;
+    width: 1.1em;
+    height: 1.1em;
+    border: 3px solid var(--brown-light);
+    border-top-color: transparent;
+    border-radius: 50%;
+    vertical-align: -0.2em;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.results-count {
+    margin-bottom: 1.2rem;
+    color: var(--muted);
+    font-style: italic;
+}
+
+.muted {
+    color: var(--muted);
+}
+
+/* ---------- Grille de livres ---------- */
+
+.book-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 1.4rem;
+}
+
+.book-card {
+    background: var(--paper);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.book-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-hover);
+}
+
+.card-link {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.book-cover {
+    height: 240px;
+    background: linear-gradient(135deg, #efe6d8, #e3d5c0);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.book-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Placeholder stylisé quand il n'y a pas de couverture */
+.cover-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 1rem;
+    text-align: center;
+    background:
+        linear-gradient(135deg, var(--brown-light), var(--brown));
+    color: var(--cream);
+}
+
+.cover-placeholder span {
+    font-size: 2.4rem;
+}
+
+.cover-placeholder p {
+    font-size: 0.85rem;
+    font-style: italic;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.book-info {
+    padding: 0.9rem 1rem 1.1rem;
+    flex: 1;
+}
+
+.book-title {
+    font-size: 1rem;
+    margin-bottom: 0.3rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.book-author {
+    font-size: 0.88rem;
+    color: var(--brown);
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.book-year {
+    font-size: 0.82rem;
+    color: var(--muted);
+    margin-top: 0.25rem;
+}
+
+/* ---------- Page détail ---------- */
+
+.back-link {
+    display: inline-block;
+    margin-bottom: 1.5rem;
+    color: var(--brown);
+    text-decoration: none;
+    font-style: italic;
+}
+
+.back-link:hover {
+    color: var(--accent);
+}
+
+.book-detail {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 2.5rem;
+    background: var(--paper);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 2rem;
+}
+
+.detail-cover img {
+    width: 100%;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+}
+
+.cover-placeholder-lg {
+    height: 380px;
+    border-radius: var(--radius);
+}
+
+.detail-content h1 {
+    font-size: clamp(1.5rem, 3vw, 2.2rem);
+    color: var(--brown-dark);
+    margin-bottom: 0.3rem;
+}
+
+.detail-author {
+    font-size: 1.15rem;
+    font-style: italic;
+    color: var(--brown);
+    margin-bottom: 1rem;
+}
+
+.detail-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-bottom: 1.6rem;
+}
+
+.meta-item {
+    background: var(--cream);
+    border: 1px solid #e6dccb;
+    border-radius: 999px;
+    padding: 0.3rem 0.9rem;
+    font-size: 0.9rem;
+}
+
+.meta-rating {
+    color: var(--gold);
+    font-weight: bold;
+}
+
+.detail-content section {
+    margin-bottom: 1.6rem;
+}
+
+.detail-content h2 {
+    font-size: 1.15rem;
+    color: var(--brown-dark);
+    border-bottom: 2px solid var(--gold);
+    display: inline-block;
+    padding-bottom: 0.15rem;
+    margin-bottom: 0.7rem;
+}
+
+.detail-description {
+    white-space: pre-line;
+}
+
+.subject-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.tag {
+    background: linear-gradient(135deg, var(--brown-light), var(--brown));
+    color: var(--cream);
+    border-radius: 999px;
+    padding: 0.3rem 0.85rem;
+    font-size: 0.85rem;
+}
+
+/* ---------- Pied de page ---------- */
+
+.site-footer {
+    background: var(--brown-dark);
+    color: #d7c9bc;
+    text-align: center;
+    padding: 1.2rem 0;
+    font-size: 0.88rem;
+    margin-top: auto;
+}
+
+.site-footer a {
+    color: var(--gold);
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 700px) {
+    .book-detail {
+        grid-template-columns: 1fr;
+        padding: 1.3rem;
+    }
+
+    .detail-cover {
+        max-width: 250px;
+        margin: 0 auto;
+        width: 100%;
+    }
+
+    .book-grid {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        gap: 1rem;
+    }
+
+    .book-cover {
+        height: 200px;
+    }
+
+    .search-form select {
+        width: 100%;
+    }
+}

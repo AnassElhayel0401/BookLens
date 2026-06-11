@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BookLens — Explorateur de livres</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="index.html" class="logo">📖 Book<span>Lens</span></a>
+            <nav class="main-nav">
+                <a href="index.html" class="nav-link active">Recherche</a>
+                <a href="bookshelf.html" class="nav-link">Ma Bibliothèque <span id="fav-count" class="badge"></span></a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h1>Explorez des millions de livres</h1>
+            <p class="hero-subtitle">Recherchez par titre ou par auteur grâce à l'API Open Library</p>
+
+            <form id="search-form" class="search-form">
+                <select id="search-type" aria-label="Type de recherche">
+                    <option value="q">Tout</option>
+                    <option value="title">Titre</option>
+                    <option value="author">Auteur</option>
+                </select>
+                <input type="text" id="search-input" placeholder="Ex : Le Petit Prince, Victor Hugo…"
+                       autocomplete="off" required>
+                <button type="submit" class="btn btn-primary">Rechercher</button>
+            </form>
+        </div>
+    </section>
+
+    <main class="container">
+        <div id="status" class="status" hidden></div>
+        <p id="results-count" class="results-count" hidden></p>
+        <div id="results" class="book-grid"></div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>BookLens — Projet Applications Web · CentraleSupélec 2026 ·
+               Données : <a href="https://openlibrary.org" target="_blank" rel="noopener">Open Library</a></p>
+        </div>
+    </footer>
+
+    <script src="js/api.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

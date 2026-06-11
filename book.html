@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Détail du livre — BookLens</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="index.html" class="logo">📖 Book<span>Lens</span></a>
+            <nav class="main-nav">
+                <a href="index.html" class="nav-link">Recherche</a>
+                <a href="bookshelf.html" class="nav-link">Ma Bibliothèque <span id="fav-count" class="badge"></span></a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <a href="index.html" class="back-link">← Retour à la recherche</a>
+
+        <div id="status" class="status" hidden></div>
+
+        <article id="book-detail" class="book-detail" hidden>
+            <div class="detail-cover">
+                <div id="detail-cover-box"></div>
+                <button id="fav-btn" class="btn btn-primary btn-block"></button>
+            </div>
+            <div class="detail-content">
+                <h1 id="detail-title"></h1>
+                <p id="detail-author" class="detail-author"></p>
+                <div id="detail-meta" class="detail-meta"></div>
+                <section>
+                    <h2>Description</h2>
+                    <p id="detail-description" class="detail-description"></p>
+                </section>
+                <section>
+                    <h2>Sujets &amp; genres</h2>
+                    <div id="detail-subjects" class="subject-tags"></div>
+                </section>
+            </div>
+        </article>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>BookLens — Projet Applications Web · CentraleSupélec 2026 ·
+               Données : <a href="https://openlibrary.org" target="_blank" rel="noopener">Open Library</a></p>
+        </div>
+    </footer>
+
+    <script src="js/api.js"></script>
+    <script src="js/book.js"></script>
+</body>
+</html>
