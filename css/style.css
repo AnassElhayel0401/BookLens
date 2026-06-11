@@ -40,6 +40,11 @@
     box-sizing: border-box;
 }
 
+/* L'attribut hidden doit toujours gagner, même sur les éléments en flex/grid */
+[hidden] {
+    display: none !important;
+}
+
 body {
     font-family: Georgia, "Times New Roman", serif;
     background-color: var(--cream);

@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Équipe BookLens">
+    <meta name="description" content="Rapport du projet BookLens — explorateur de livres, cours Applications Web, CentraleSupélec">
+    <title>Rapport de projet — BookLens</title>
+    <style>
+        :root {
+            --brown-dark: #3e2723;
+            --brown: #6d4c41;
+            --accent: #c0392b;
+            --gold: #d4a017;
+            --cream: #faf6ef;
+            --paper: #fffdf8;
+            --text: #3b2f2a;
+            --muted: #8a7a70;
+            --border: #e6dccb;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: Georgia, "Times New Roman", serif;
+            background: var(--cream);
+            color: var(--text);
+            line-height: 1.7;
+            margin: 0;
+        }
+
+        .page {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem 4rem;
+        }
+
+        header.report-header {
+            background: linear-gradient(135deg, var(--brown-dark), var(--brown));
+            color: var(--cream);
+            text-align: center;
+            padding: 3rem 1rem;
+        }
+
+        header.report-header h1 {
+            margin: 0 0 0.3rem;
+            font-size: 2.4rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.4rem;
+        }
+
+        header.report-header h1 svg {
+            width: 1em;
+            height: 1em;
+            fill: none;
+            stroke: var(--gold);
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        header.report-header h1 span { color: var(--gold); }
+
+        header.report-header p {
+            margin: 0.2rem 0;
+            color: #e8ddd0;
+            font-style: italic;
+        }
+
+        h2 {
+            color: var(--brown-dark);
+            border-bottom: 3px solid var(--gold);
+            padding-bottom: 0.2rem;
+            margin-top: 2.5rem;
+        }
+
+        h3 { color: var(--brown); margin-top: 1.8rem; }
+
+        nav.toc {
+            background: var(--paper);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 1rem 1.5rem;
+            margin-top: 2rem;
+        }
+
+        nav.toc h2 { margin-top: 0; border: none; font-size: 1.1rem; }
+        nav.toc ol { margin: 0.4rem 0 0.4rem 1.2rem; padding: 0; }
+        nav.toc a { color: var(--accent); text-decoration: none; }
+        nav.toc a:hover { text-decoration: underline; }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--paper);
+            font-size: 0.95rem;
+            margin: 1rem 0;
+        }
+
+        th, td {
+            border: 1px solid var(--border);
+            padding: 0.55rem 0.8rem;
+            text-align: left;
+        }
+
+        th { background: var(--brown); color: var(--cream); }
+
+        code {
+            font-family: Consolas, "Courier New", monospace;
+            background: #f0e8da;
+            border-radius: 4px;
+            padding: 0.1rem 0.35rem;
+            font-size: 0.9em;
+        }
+
+        pre {
+            background: #2b1d19;
+            color: #f5e9d9;
+            border-radius: 10px;
+            padding: 1.1rem 1.3rem;
+            overflow-x: auto;
+            font-size: 0.88rem;
+            line-height: 1.5;
+        }
+
+        pre code { background: none; color: inherit; padding: 0; }
+
+        figure {
+            margin: 1.5rem 0;
+            text-align: center;
+        }
+
+        figcaption {
+            color: var(--muted);
+            font-size: 0.88rem;
+            font-style: italic;
+            margin-top: 0.4rem;
+        }
+
+        .filetree {
+            background: var(--paper);
+            border: 1px solid var(--border);
+            color: var(--text);
+        }
+
+        ul.checklist { list-style: none; padding-left: 0.2rem; }
+        ul.checklist li::before { content: "\2713\0020"; color: #2e7d32; font-weight: bold; }
+
+        footer.report-footer {
+            text-align: center;
+            color: var(--muted);
+            font-size: 0.88rem;
+            border-top: 1px solid var(--border);
+            margin-top: 3rem;
+            padding-top: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+
+<header class="report-header">
+    <h1><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg> Book<span>Lens</span></h1>
+    <p>Rapport de projet — Cours Applications Web</p>
+    <p>CentraleSupélec, 2<sup>e</sup> année · Semaine du 8 au 12 juin 2026</p>
+</header>
+
+<div class="page">
+
+    <nav class="toc" aria-label="Sommaire">
+        <h2>Sommaire</h2>
+        <ol>
+            <li><a href="#introduction">Introduction et objectifs</a></li>
+            <li><a href="#architecture">Architecture de l'application</a></li>
+            <li><a href="#api">L'API Open Library</a></li>
+            <li><a href="#fonctionnalites">Fonctionnalités réalisées</a></li>
+            <li><a href="#implementation">Choix d'implémentation</a></li>
+            <li><a href="#design">Design et responsive</a></li>
+            <li><a href="#difficultes">Difficultés rencontrées et solutions</a></li>
+            <li><a href="#ameliorations">Pistes d'amélioration</a></li>
+            <li><a href="#conclusion">Conclusion</a></li>
+            <li><a href="#references">Références</a></li>
+        </ol>
+    </nav>
+
+    <section id="introduction">
+        <h2>1. Introduction et objectifs</h2>
+        <p>
+            <strong>BookLens</strong> est un explorateur de livres développé dans le cadre du cours
+            <em>Applications Web</em>. L'application permet de rechercher des livres parmi les millions
+            de références de l'<a href="https://openlibrary.org">Open Library</a> (projet de l'Internet
+            Archive), de consulter leur fiche détaillée et de se constituer une bibliothèque personnelle.
+        </p>
+        <p>Le cahier des charges imposait les contraintes techniques suivantes :</p>
+        <ul class="checklist">
+            <li>HTML5, CSS3 et JavaScript <strong>vanilla</strong> uniquement (aucun framework type React ou Vue) ;</li>
+            <li>appels à l'API en <strong>AJAX</strong> (ici via <code>fetch()</code> et <code>async/await</code>) ;</li>
+            <li>aucun backend : l'application tourne entièrement <strong>côté client</strong> ;</li>
+            <li>persistance des favoris dans le <strong>localStorage</strong> du navigateur ;</li>
+            <li>design <strong>responsive</strong> et moderne.</li>
+        </ul>
+    </section>
+
+    <section id="architecture">
+        <h2>2. Architecture de l'application</h2>
+        <p>
+            L'application est composée de trois pages HTML, d'une feuille de style unique et de quatre
+            fichiers JavaScript. La structure suit un principe simple : <strong>un fichier JS par page</strong>
+            (le « contrôleur » de la page), plus un module commun <code>api.js</code> chargé sur les trois pages.
+        </p>
+        <pre class="filetree"><code>BookLens/
+├── index.html          page principale : recherche + grille de résultats
+├── book.html           fiche détaillée d'un livre
+├── bookshelf.html      bibliothèque personnelle (favoris)
+├── slides.html         présentation reveal.js
+├── rapport.html        ce rapport
+├── css/
+│   └── style.css       styles, thèmes clair/sombre, responsive
+└── js/
+    ├── api.js          appels Open Library + favoris + icônes + thème
+    ├── app.js          logique de index.html
+    ├── book.js         logique de book.html
+    └── bookshelf.js    logique de bookshelf.html</code></pre>
+        <p>
+            Le module <code>api.js</code> joue le rôle de <strong>couche d'accès aux données</strong> :
+            il centralise tous les appels réseau (<code>searchBooks</code>, <code>getWorkDetails</code>,
+            <code>getWorkRating</code>, <code>getAuthor</code>, <code>getTrendingBooks</code>,
+            <code>getCoverUrl</code>) ainsi que les utilitaires partagés : gestion des favoris en
+            localStorage, génération d'icônes SVG, bascule de thème et échappement HTML.
+            Cette factorisation évite toute duplication entre les trois pages.
+        </p>
+    </section>
+
+    <section id="api">
+        <h2>3. L'API Open Library</h2>
+        <p>
+            Open Library expose une API REST publique, gratuite et sans clé d'authentification,
+            qui renvoie des données au format JSON. Les endpoints utilisés sont :
+        </p>
+        <table>
+            <thead>
+                <tr><th>Usage</th><th>Endpoint</th><th>Champs exploités</th></tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Recherche</td>
+                    <td><code>GET /search.json?q|title|author=…&amp;limit=20&amp;page=…&amp;sort=…</code></td>
+                    <td><code>key</code>, <code>title</code>, <code>author_name</code>, <code>first_publish_year</code>, <code>cover_i</code>, <code>ratings_average</code>, <code>number_of_pages_median</code>, <code>numFound</code></td>
+                </tr>
+                <tr>
+                    <td>Tendances du jour</td>
+                    <td><code>GET /trending/daily.json</code></td>
+                    <td>mêmes champs que la recherche</td>
+                </tr>
+                <tr>
+                    <td>Détail d'une œuvre</td>
+                    <td><code>GET /works/{id}.json</code></td>
+                    <td><code>title</code>, <code>description</code>, <code>subjects</code>, <code>covers</code>, <code>authors</code></td>
+                </tr>
+                <tr>
+                    <td>Note moyenne</td>
+                    <td><code>GET /works/{id}/ratings.json</code></td>
+                    <td><code>summary.average</code></td>
+                </tr>
+                <tr>
+                    <td>Auteur</td>
+                    <td><code>GET /authors/{id}.json</code></td>
+                    <td><code>name</code></td>
+                </tr>
+                <tr>
+                    <td>Couvertures</td>
+                    <td><code>covers.openlibrary.org/b/id/{cover_id}-M|L.jpg</code></td>
+                    <td>image M (grille) ou L (fiche détail)</td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Exemple d'appel AJAX avec <code>fetch()</code> et gestion d'erreur :</p>
+        <pre><code>async function searchBooks(query, type = "q", limit = 20, page = 1, sort = "") {
+    const param = ["title", "author"].includes(type) ? type : "q";
+    let url = `${OL_BASE}/search.json?${param}=${encodeURIComponent(query)}`
+            + `&amp;limit=${limit}&amp;page=${page}`;
+    if (sort) url += `&amp;sort=${sort}`;
+
+    const response = await fetch(url);
+    if (!response.ok) {
+        throw new Error(`Erreur API Open Library (${response.status})`);
+    }
+    const data = await response.json();
+    return { docs: data.docs || [], numFound: data.numFound || 0 };
+}</code></pre>
+    </section>
+
+    <section id="fonctionnalites">
+        <h2>4. Fonctionnalités réalisées</h2>
+
+        <h3>4.1 Page de recherche (<code>index.html</code>)</h3>
+        <ul>
+            <li>Recherche <strong>générale, par titre ou par auteur</strong> (sélecteur de type) ;</li>
+            <li><strong>Tendances du jour</strong> affichées à l'arrivée sur le site ;</li>
+            <li><strong>Tri</strong> des résultats : pertinence, plus récents, plus anciens, mieux notés ;</li>
+            <li><strong>Pagination</strong> « Charger plus » (20 résultats par page) avec compteur total ;</li>
+            <li>grille de cartes : couverture, titre, auteur, année, note moyenne ;</li>
+            <li>bouton cœur sur chaque carte : ajout/retrait des favoris sans quitter la grille ;</li>
+            <li>placeholder stylisé en CSS lorsque le livre n'a pas de couverture ;</li>
+            <li>états de chargement (spinner), d'erreur réseau et de résultat vide ;</li>
+            <li>recherche pilotable par l'URL (<code>index.html?q=fantasy</code>), utilisée par les tags de sujets.</li>
+        </ul>
+
+        <h3>4.2 Fiche détaillée (<code>book.html</code>)</h3>
+        <ul>
+            <li>couverture haute définition, titre, auteur(s), année de première publication ;</li>
+            <li>description complète et <strong>note moyenne affichée en étoiles</strong> ;</li>
+            <li>nombre de pages (médiane) lorsque disponible ;</li>
+            <li><strong>sujets et genres cliquables</strong> : un clic relance une recherche sur ce sujet ;</li>
+            <li>bouton « Ajouter à ma bibliothèque » / « Dans ma bibliothèque » ;</li>
+            <li>lien externe vers la fiche officielle Open Library.</li>
+        </ul>
+
+        <h3>4.3 Bibliothèque personnelle (<code>bookshelf.html</code>)</h3>
+        <ul>
+            <li>liste de tous les livres sauvegardés, persistée en <strong>localStorage</strong> ;</li>
+            <li><strong>statut de lecture</strong> par livre : <em>À lire</em>, <em>En cours</em>, <em>Lu</em>,
+                avec pastille colorée sur la couverture ;</li>
+            <li>onglets de <strong>filtrage par statut</strong> et champ de recherche interne (titre/auteur) ;</li>
+            <li>suppression d'un livre de la bibliothèque ;</li>
+            <li>compteur de favoris visible dans la barre de navigation de toutes les pages.</li>
+        </ul>
+
+        <h3>4.4 Fonctionnalités transverses</h3>
+        <ul>
+            <li><strong>Mode sombre</strong> persistant, appliqué avant le rendu pour éviter tout flash ;</li>
+            <li>icônes <strong>SVG inline</strong> (style Lucide) générées par une fonction utilitaire,
+                sans aucune dépendance externe.</li>
+        </ul>
+    </section>
+
+    <section id="implementation">
+        <h2>5. Choix d'implémentation</h2>
+
+        <h3>5.1 Persistance avec localStorage</h3>
+        <p>
+            Les favoris sont stockés sous la clé <code>booklens_favorites</code> sous forme d'un tableau
+            JSON sérialisé. Chaque favori est un objet
+            <code>{id, title, author, year, cover, status, addedAt}</code> :
+        </p>
+        <pre><code>function addFavorite(book) {
+    const favorites = getFavorites();
+    if (!favorites.some((b) =&gt; b.id === book.id)) {
+        favorites.push({ status: "toread", addedAt: Date.now(), ...book });
+        localStorage.setItem(FAVORITES_KEY, JSON.stringify(favorites));
+    }
+}</code></pre>
+        <p>
+            La lecture est protégée par un <code>try/catch</code> : si la valeur stockée est corrompue,
+            l'application repart d'une liste vide au lieu de planter. Le thème choisi (clair/sombre) est
+            persisté de la même manière sous la clé <code>booklens_theme</code>.
+        </p>
+
+        <h3>5.2 Transfert d'informations entre pages</h3>
+        <p>
+            L'endpoint <code>/works/{id}.json</code> ne renvoie ni les noms d'auteurs (seulement leurs
+            clés), ni l'année, ni la note. Pour éviter des appels réseau superflus, la page de recherche
+            mémorise les informations du résultat cliqué dans le <code>sessionStorage</code> ; la fiche
+            détail les réutilise. Si l'utilisateur arrive par une URL directe, la page bascule sur des
+            appels de secours (<code>/authors/{id}.json</code> pour les noms,
+            <code>/ratings.json</code> pour la note).
+        </p>
+
+        <h3>5.3 Sécurité : prévention des injections XSS</h3>
+        <p>
+            Tout texte provenant de l'API (titres, auteurs, sujets…) est échappé avant insertion dans le
+            DOM via une fonction <code>escapeHtml()</code> s'appuyant sur <code>textContent</code> :
+        </p>
+        <pre><code>function escapeHtml(text) {
+    const div = document.createElement("div");
+    div.textContent = String(text);
+    return div.innerHTML;
+}</code></pre>
+
+        <h3>5.4 Icônes SVG sans dépendance</h3>
+        <p>
+            Plutôt que d'utiliser des emojis (rendu hétérogène selon les systèmes) ou une bibliothèque
+            d'icônes externe, une fonction <code>icon(name, size, filled)</code> génère des SVG inline
+            au trait (<code>stroke="currentColor"</code>), qui héritent automatiquement de la couleur du
+            texte et s'adaptent donc aux deux thèmes.
+        </p>
+    </section>
+
+    <section id="design">
+        <h2>6. Design et responsive</h2>
+        <p>
+            La direction artistique évoque une <strong>bibliothèque chaleureuse</strong> : tons bois et
+            cuir (bruns), papier crème, accents dorés, typographie serif (Georgia). Toutes les couleurs
+            sont déclarées en <strong>variables CSS</strong> dans <code>:root</code> ; le mode sombre se
+            résume à redéfinir ces variables sous le sélecteur <code>[data-theme="dark"]</code> :
+        </p>
+        <pre><code>:root        { --cream: #faf6ef; --paper: #fffdf8; --text: #3b2f2a; }
+[data-theme="dark"] { --cream: #211a16; --paper: #2c241f; --text: #ece2d4; }</code></pre>
+        <p>Le responsive repose sur deux mécanismes :</p>
+        <ul>
+            <li>une grille fluide <code>repeat(auto-fill, minmax(180px, 1fr))</code> qui adapte
+                automatiquement le nombre de colonnes à la largeur de l'écran ;</li>
+            <li>une media query à 700&nbsp;px qui passe la fiche détail en une colonne, élargit le
+                formulaire de recherche et resserre la grille pour mobile.</li>
+        </ul>
+        <p>
+            Les micro-interactions (survol des cartes, transitions de thème, spinner de chargement,
+            rotation du bouton de thème) renforcent le caractère moderne de l'interface sans recourir
+            à la moindre bibliothèque JavaScript.
+        </p>
+    </section>
+
+    <section id="difficultes">
+        <h2>7. Difficultés rencontrées et solutions</h2>
+        <table>
+            <thead>
+                <tr><th>Difficulté</th><th>Solution mise en place</th></tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>La description d'une œuvre est tantôt une chaîne, tantôt un objet <code>{value}</code>.</td>
+                    <td>Fonction <code>extractDescription()</code> qui normalise les deux formats.</td>
+                </tr>
+                <tr>
+                    <td>Champs souvent absents : couverture, note, année, description, sujets.</td>
+                    <td>Valeurs par défaut systématiques, placeholder CSS pour les couvertures, messages « Aucune description disponible »…</td>
+                </tr>
+                <tr>
+                    <td><code>/works/{id}.json</code> ne donne pas les noms d'auteurs ni la note.</td>
+                    <td>Cache <code>sessionStorage</code> alimenté par la recherche + appels de secours <code>/authors</code> et <code>/ratings</code>.</td>
+                </tr>
+                <tr>
+                    <td>Risque d'injection XSS via les données de l'API.</td>
+                    <td>Échappement systématique avec <code>escapeHtml()</code> avant toute insertion en <code>innerHTML</code>.</td>
+                </tr>
+                <tr>
+                    <td>Flash blanc au chargement en mode sombre.</td>
+                    <td>Mini-script inline dans le <code>&lt;head&gt;</code> qui applique le thème avant le premier rendu.</td>
+                </tr>
+                <tr>
+                    <td>Latence de l'API sur certaines requêtes.</td>
+                    <td>États de chargement visibles (spinner), pagination plutôt que chargement massif, <code>loading="lazy"</code> sur les images.</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section id="ameliorations">
+        <h2>8. Pistes d'amélioration</h2>
+        <ul>
+            <li>suggestions de recherche en temps réel (autocomplétion avec <em>debounce</em>) ;</li>
+            <li>notes et commentaires personnels sur les livres de la bibliothèque ;</li>
+            <li>export / import de la bibliothèque au format JSON ;</li>
+            <li>transformation en <abbr title="Progressive Web App">PWA</abbr> avec cache hors-ligne
+                (Service Worker) ;</li>
+            <li>page dédiée aux auteurs (biographie, œuvres complètes).</li>
+        </ul>
+    </section>
+
+    <section id="conclusion">
+        <h2>9. Conclusion</h2>
+        <p>
+            BookLens remplit l'intégralité du cahier des charges — recherche AJAX, fiche détaillée,
+            bibliothèque persistante, design responsive — et va au-delà avec le tri, la pagination,
+            les tendances du jour, les statuts de lecture et le mode sombre. Le projet nous a permis
+            de mettre en pratique les fondamentaux du web côté client : manipulation du DOM,
+            programmation asynchrone (<code>fetch</code>, <code>async/await</code>,
+            <code>Promise.all</code>), persistance navigateur (localStorage, sessionStorage) et
+            CSS moderne (variables, grid, media queries), le tout <strong>sans aucune dépendance
+            JavaScript externe</strong>.
+        </p>
+    </section>
+
+    <section id="references">
+        <h2>10. Références</h2>
+        <ul>
+            <li>Open Library API — <a href="https://openlibrary.org/developers/api">openlibrary.org/developers/api</a></li>
+            <li>Open Library Covers API — <a href="https://openlibrary.org/dev/docs/api/covers">openlibrary.org/dev/docs/api/covers</a></li>
+            <li>MDN Web Docs, <em>Fetch API</em> — <a href="https://developer.mozilla.org/fr/docs/Web/API/Fetch_API">developer.mozilla.org</a></li>
+            <li>MDN Web Docs, <em>Window.localStorage</em> — <a href="https://developer.mozilla.org/fr/docs/Web/API/Window/localStorage">developer.mozilla.org</a></li>
+            <li>reveal.js — <a href="https://revealjs.com">revealjs.com</a></li>
+            <li>Lucide Icons (inspiration des icônes SVG) — <a href="https://lucide.dev">lucide.dev</a></li>
+        </ul>
+    </section>
+
+    <footer class="report-footer">
+        <p>BookLens — Projet Applications Web · CentraleSupélec · Juin 2026<br>
+        Dépôt : <a href="https://github.com/AnassElhayel0401/BookLens">github.com/AnassElhayel0401/BookLens</a></p>
+    </footer>
+
+</div>
+
+</body>
+</html>

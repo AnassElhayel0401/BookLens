@@ -23,7 +23,7 @@
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
                     Ma Bibliothèque <span id="fav-count" class="badge"></span>
                 </a>
-                <button id="theme-toggle" class="theme-toggle" aria-label="Changer de thème"></button>
+                <button type="button" id="theme-toggle" class="theme-toggle" aria-label="Changer de thème"></button>
             </nav>
         </div>
     </header>
@@ -41,7 +41,7 @@
                 </select>
                 <input type="text" id="search-input" placeholder="Ex : Le Petit Prince, Victor Hugo…"
                        autocomplete="off" required>
-                <button type="submit" class="btn btn-primary" id="search-btn"></button>
+                <button type="submit" class="btn btn-primary" id="search-btn" aria-label="Rechercher">Rechercher</button>
             </form>
         </div>
     </section>
@@ -60,12 +60,12 @@
             </label>
         </div>
 
-        <h2 id="section-title" class="section-title" hidden></h2>
+        <h2 id="section-title" class="section-title" hidden>Tendances du jour</h2>
         <div id="status" class="status" hidden></div>
         <div id="results" class="book-grid"></div>
 
         <div class="load-more-wrap">
-            <button id="load-more" class="btn btn-outline" hidden>Charger plus de résultats</button>
+            <button type="button" id="load-more" class="btn btn-outline" hidden>Charger plus de résultats</button>
         </div>
     </main>
 

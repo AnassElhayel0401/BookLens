@@ -23,7 +23,7 @@
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
                     Ma Bibliothèque <span id="fav-count" class="badge"></span>
                 </a>
-                <button id="theme-toggle" class="theme-toggle" aria-label="Changer de thème"></button>
+                <button type="button" id="theme-toggle" class="theme-toggle" aria-label="Changer de thème"></button>
             </nav>
         </div>
     </header>
@@ -36,11 +36,11 @@
         <article id="book-detail" class="book-detail" hidden>
             <div class="detail-cover">
                 <div id="detail-cover-box"></div>
-                <button id="fav-btn" class="btn btn-primary btn-block"></button>
-                <a id="ol-link" class="btn btn-outline btn-block" target="_blank" rel="noopener"></a>
+                <button type="button" id="fav-btn" class="btn btn-primary btn-block">Ajouter à ma bibliothèque</button>
+                <a id="ol-link" href="https://openlibrary.org" class="btn btn-outline btn-block" target="_blank" rel="noopener">Voir sur Open Library</a>
             </div>
             <div class="detail-content">
-                <h1 id="detail-title"></h1>
+                <h1 id="detail-title">Chargement…</h1>
                 <p id="detail-author" class="detail-author"></p>
                 <div id="detail-meta" class="detail-meta"></div>
                 <section>

@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BookLens — Présentation</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/serif.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/monokai.css">
+
+    <style>
+        /* Personnalisation : palette chaude "bibliothèque" de BookLens */
+        :root {
+            --bl-brown-dark: #3e2723;
+            --bl-brown: #6d4c41;
+            --bl-accent: #c0392b;
+            --bl-gold: #d4a017;
+            --bl-cream: #faf6ef;
+        }
+
+        .reveal-viewport {
+            background: var(--bl-cream);
+        }
+
+        /* Taille de base réduite pour que tout tienne dans le cadre */
+        .reveal {
+            font-size: 30px;
+        }
+
+        .reveal h1, .reveal h2, .reveal h3 {
+            color: var(--bl-brown-dark);
+            text-transform: none;
+        }
+
+        .reveal h2 {
+            font-size: 1.5em;
+            border-bottom: 3px solid var(--bl-gold);
+            display: inline-block;
+            padding-bottom: 0.1em;
+            margin-bottom: 0.6em;
+        }
+
+        .reveal h3 {
+            font-size: 1.1em;
+        }
+
+        .reveal p, .reveal li {
+            margin-bottom: 0.25em;
+        }
+
+        .reveal .accent { color: var(--bl-accent); }
+        .reveal .gold { color: var(--bl-gold); }
+
+        .reveal ul { line-height: 1.5; }
+
+        .reveal pre {
+            box-shadow: 0 6px 20px rgba(62, 39, 35, 0.25);
+            border-radius: 10px;
+            font-size: 0.5em;
+            width: 100%;
+            margin: 0.5em auto;
+        }
+
+        .reveal pre code {
+            border-radius: 10px;
+            padding: 0.8em 1em;
+            max-height: 420px;
+        }
+
+        .reveal .small { font-size: 0.65em; }
+
+        .reveal table {
+            font-size: 0.62em;
+            margin: 0 auto;
+        }
+
+        .reveal table th,
+        .reveal table td {
+            padding: 0.25em 0.5em;
+        }
+
+        .reveal .cols {
+            display: flex;
+            gap: 1.5em;
+            align-items: flex-start;
+            text-align: left;
+        }
+
+        .reveal .cols > div { flex: 1; }
+
+        .reveal .pill {
+            display: inline-block;
+            background: var(--bl-brown);
+            color: var(--bl-cream);
+            border-radius: 999px;
+            padding: 0.15em 0.8em;
+            font-size: 0.55em;
+            margin: 0.15em;
+        }
+
+        .title-slide .logo-big {
+            font-size: 2.6em;
+            font-weight: bold;
+            color: var(--bl-brown-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.3em;
+        }
+
+        .title-slide .logo-big span { color: var(--bl-gold); }
+
+        /* Icônes SVG (style Lucide) via sprite <use> */
+        .reveal svg.i {
+            width: 0.95em;
+            height: 0.95em;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            vertical-align: -0.12em;
+        }
+
+        .reveal svg.i.gold { stroke: var(--bl-gold); }
+        .reveal svg.i.accent { stroke: var(--bl-accent); }
+        .reveal svg.i.green { stroke: #2e7d32; }
+        .title-slide svg.i { width: 1em; height: 1em; stroke: var(--bl-gold); }
+    </style>
+</head>
+<body>
+    <!-- Sprite d'icônes SVG (style Lucide) -->
+    <svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
+        <symbol id="i-book" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></symbol>
+        <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></symbol>
+        <symbol id="i-trending" viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></symbol>
+        <symbol id="i-sort" viewBox="0 0 24 24"><path d="m21 16-4 4-4-4"/><path d="M17 20V4"/><path d="m3 8 4-4 4 4"/><path d="M7 4v16"/></symbol>
+        <symbol id="i-plus" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></symbol>
+        <symbol id="i-heart" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></symbol>
+        <symbol id="i-star" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></symbol>
+        <symbol id="i-palette" viewBox="0 0 24 24"><circle cx="13.5" cy="6.5" r=".5"/><circle cx="17.5" cy="10.5" r=".5"/><circle cx="8.5" cy="7.5" r=".5"/><circle cx="6.5" cy="12.5" r=".5"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.93 0 1.65-.75 1.65-1.69 0-.44-.18-.84-.44-1.12-.29-.29-.44-.65-.44-1.13a1.64 1.64 0 0 1 1.67-1.66h2c3.05 0 5.55-2.51 5.55-5.56C21.97 6.01 17.46 2 12 2z"/></symbol>
+        <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></symbol>
+        <symbol id="i-pen" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></symbol>
+        <symbol id="i-phone" viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></symbol>
+        <symbol id="i-arrow" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></symbol>
+        <symbol id="i-chevron" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></symbol>
+        <symbol id="i-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></symbol>
+    </svg>
+
+    <div class="reveal">
+        <div class="slides">
+
+            <!-- 1. Titre -->
+            <section class="title-slide">
+                <p class="logo-big"><svg class="i"><use href="#i-book"/></svg> Book<span>Lens</span></p>
+                <h3>Un explorateur de livres en JavaScript vanilla</h3>
+                <p class="small">
+                    Projet Applications Web — CentraleSupélec, 2A<br>
+                    Juin 2026 · API Open Library
+                </p>
+            </section>
+
+            <!-- 2. Sommaire -->
+            <section>
+                <h2>Sommaire</h2>
+                <ol>
+                    <li>Contexte &amp; objectifs</li>
+                    <li>Architecture de l'application</li>
+                    <li>L'API Open Library</li>
+                    <li>Fonctionnalités</li>
+                    <li>Zoom technique : AJAX &amp; localStorage</li>
+                    <li>Design &amp; responsive</li>
+                    <li>Difficultés rencontrées</li>
+                    <li>Démonstration &amp; conclusion</li>
+                </ol>
+            </section>
+
+            <!-- 3. Contexte -->
+            <section>
+                <h2>Contexte &amp; objectifs</h2>
+                <p>Construire une application web <strong>100&nbsp;% côté client</strong> consommant une API REST publique.</p>
+                <ul>
+                    <li><svg class="i gold"><use href="#i-chevron"/></svg> Rechercher des livres parmi des millions de références</li>
+                    <li><svg class="i gold"><use href="#i-chevron"/></svg> Consulter la fiche détaillée d'un livre</li>
+                    <li><svg class="i gold"><use href="#i-chevron"/></svg> Se constituer une bibliothèque personnelle persistante</li>
+                </ul>
+                <p>
+                    <span class="pill">HTML5</span>
+                    <span class="pill">CSS3</span>
+                    <span class="pill">JavaScript vanilla</span>
+                    <span class="pill">fetch() / AJAX</span>
+                    <span class="pill">localStorage</span>
+                    <span class="pill">Pas de framework</span>
+                    <span class="pill">Pas de backend</span>
+                </p>
+            </section>
+
+            <!-- 4. Architecture -->
+            <section>
+                <h2>Architecture</h2>
+                <div class="cols">
+                    <div>
+                        <pre><code class="language-text" data-trim>
+BookLens/
+├── index.html      → recherche + résultats
+├── book.html       → détail d'un livre
+├── bookshelf.html  → bibliothèque perso
+├── css/
+│   └── style.css   → thèmes clair/sombre
+└── js/
+    ├── api.js      → appels API + utilitaires
+    ├── app.js      → logique recherche
+    ├── book.js     → logique détail
+    └── bookshelf.js→ logique favoris
+                        </code></pre>
+                    </div>
+                    <div class="small">
+                        <p><strong>Séparation des responsabilités :</strong></p>
+                        <ul>
+                            <li><code>api.js</code> : couche d'accès aux données (partagée par les 3 pages) + icônes SVG, thème, favoris</li>
+                            <li>1 fichier JS par page = 1 contrôleur</li>
+                            <li>CSS unique avec variables (<code>:root</code>) pour les 2 thèmes</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 5. API Open Library -->
+            <section>
+                <h2>L'API Open Library</h2>
+                <p class="small">API REST publique, gratuite, sans clé d'authentification — projet Internet Archive</p>
+                <table>
+                    <thead>
+                        <tr><th>Usage</th><th>Endpoint</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Recherche</td><td><code>/search.json?q=…&amp;page=…&amp;sort=…</code></td></tr>
+                        <tr><td>Tendances du jour</td><td><code>/trending/daily.json</code></td></tr>
+                        <tr><td>Détail d'une œuvre</td><td><code>/works/{id}.json</code></td></tr>
+                        <tr><td>Note moyenne</td><td><code>/works/{id}/ratings.json</code></td></tr>
+                        <tr><td>Auteur</td><td><code>/authors/{id}.json</code></td></tr>
+                        <tr><td>Couvertures</td><td><code>covers.openlibrary.org/b/id/{id}-M.jpg</code></td></tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- 6. Fonctionnalités : recherche -->
+            <section>
+                <h2>Recherche &amp; exploration</h2>
+                <ul>
+                    <li><svg class="i accent"><use href="#i-search"/></svg> Recherche <strong>générale, par titre ou par auteur</strong></li>
+                    <li><svg class="i accent"><use href="#i-trending"/></svg> <strong>Tendances du jour</strong> affichées à l'arrivée sur le site</li>
+                    <li><svg class="i accent"><use href="#i-sort"/></svg> <strong>Tri</strong> : pertinence, récents, anciens, mieux notés</li>
+                    <li><svg class="i accent"><use href="#i-plus"/></svg> <strong>Pagination</strong> « Charger plus » (20 résultats / page)</li>
+                    <li><svg class="i accent"><use href="#i-heart"/></svg> Ajout aux favoris <strong>directement depuis la grille</strong></li>
+                    <li>Grille de cartes : couverture, titre, auteur, année, note</li>
+                    <li>Placeholder CSS stylisé si le livre n'a pas de couverture</li>
+                </ul>
+            </section>
+
+            <!-- 7. Fonctionnalités : détail + bibliothèque -->
+            <section>
+                <h2>Détail &amp; bibliothèque</h2>
+                <div class="cols small">
+                    <div>
+                        <h3>Fiche livre</h3>
+                        <ul>
+                            <li>Couverture HD, description, auteurs</li>
+                            <li>Note moyenne en étoiles <svg class="i gold"><use href="#i-star"/></svg></li>
+                            <li>Sujets/genres <strong>cliquables</strong> → relancent une recherche</li>
+                            <li>Lien vers la fiche Open Library</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3>Ma Bibliothèque</h3>
+                        <ul>
+                            <li>Persistance en <strong>localStorage</strong></li>
+                            <li>Statut de lecture : <em>À lire / En cours / Lu</em></li>
+                            <li>Filtres par statut + recherche interne</li>
+                            <li>Suppression d'un livre</li>
+                            <li>Compteur de favoris dans le header</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 8. Zoom AJAX -->
+            <section>
+                <h2>Zoom technique : AJAX avec fetch()</h2>
+                <pre><code class="language-javascript" data-trim>
+async function searchBooks(query, type = "q", limit = 20, page = 1, sort = "") {
+    const param = ["title", "author"].includes(type) ? type : "q";
+    let url = `${OL_BASE}/search.json?${param}=` +
+              `${encodeURIComponent(query)}&amp;limit=${limit}&amp;page=${page}`;
+    if (sort) url += `&amp;sort=${sort}`;
+
+    const response = await fetch(url);          // appel AJAX asynchrone
+    if (!response.ok) {
+        throw new Error(`Erreur API Open Library (${response.status})`);
+    }
+    const data = await response.json();
+    return { docs: data.docs || [], numFound: data.numFound || 0 };
+}
+                </code></pre>
+                <p class="small">Gestion des erreurs réseau + états de chargement (spinner) sur chaque page</p>
+            </section>
+
+            <!-- 9. Zoom localStorage -->
+            <section>
+                <h2>Zoom technique : localStorage</h2>
+                <pre><code class="language-javascript" data-trim>
+const FAVORITES_KEY = "booklens_favorites";
+
+function getFavorites() {
+    try {
+        return JSON.parse(localStorage.getItem(FAVORITES_KEY)) || [];
+    } catch (e) { return []; }
+}
+
+function addFavorite(book) {
+    const favorites = getFavorites();
+    if (!favorites.some((b) => b.id === book.id)) {
+        favorites.push({ status: "toread", addedAt: Date.now(), ...book });
+        localStorage.setItem(FAVORITES_KEY, JSON.stringify(favorites));
+    }
+}
+                </code></pre>
+                <p class="small">Chaque favori : <code>{id, title, author, year, cover, status, addedAt}</code> — le thème sombre est aussi persisté</p>
+            </section>
+
+            <!-- 10. Design -->
+            <section>
+                <h2>Design &amp; responsive</h2>
+                <ul>
+                    <li><svg class="i accent"><use href="#i-palette"/></svg> Palette chaude « bibliothèque » : bois, cuir, papier crème</li>
+                    <li><svg class="i accent"><use href="#i-moon"/></svg> <strong>Mode sombre</strong> via variables CSS et <code>[data-theme]</code>, sans flash au chargement</li>
+                    <li><svg class="i accent"><use href="#i-pen"/></svg> Icônes <strong>SVG inline</strong> (style Lucide) — aucune dépendance externe</li>
+                    <li><svg class="i accent"><use href="#i-phone"/></svg> Grille responsive : <code>grid-template-columns: repeat(auto-fill, minmax(180px, 1fr))</code></li>
+                    <li>Media queries pour mobile (formulaire, fiche détail en colonne)</li>
+                    <li>Micro-interactions : survol des cartes, transitions, spinner</li>
+                </ul>
+            </section>
+
+            <!-- 11. Difficultés -->
+            <section>
+                <h2>Difficultés rencontrées</h2>
+                <ul class="small">
+                    <li><strong>Données hétérogènes</strong> : la description d'une œuvre est tantôt une chaîne, tantôt un objet <code>{value}</code> ; champs souvent absents (couverture, note, année)</li>
+                    <li><strong>Deux formats de réponse</strong> : <code>/search.json</code> donne les noms d'auteurs, <code>/works/{id}.json</code> seulement leurs clés → cache <code>sessionStorage</code> + appel <code>/authors/{id}.json</code> en secours</li>
+                    <li><strong>Note moyenne</strong> : pas toujours dans la recherche → endpoint <code>/ratings.json</code> en complément</li>
+                    <li><strong>Sécurité</strong> : tout texte issu de l'API est échappé (<code>escapeHtml</code>) avant insertion dans le DOM (anti-XSS)</li>
+                    <li><strong>UX asynchrone</strong> : états chargement / vide / erreur sur chaque page</li>
+                </ul>
+            </section>
+
+            <!-- 12. Démo -->
+            <section>
+                <h2>Démonstration</h2>
+                <p><svg class="i accent"><use href="#i-arrow"/></svg> <a href="index.html" target="_blank">Ouvrir BookLens</a></p>
+                <ol class="small">
+                    <li>Tendances du jour sur la page d'accueil</li>
+                    <li>Recherche « Dune » par titre, tri par note</li>
+                    <li>Fiche détail : description, étoiles, sujets cliquables</li>
+                    <li>Ajout à la bibliothèque, changement de statut de lecture</li>
+                    <li>Mode sombre <svg class="i"><use href="#i-moon"/></svg></li>
+                </ol>
+            </section>
+
+            <!-- 13. Conclusion -->
+            <section>
+                <h2>Conclusion</h2>
+                <ul>
+                    <li><svg class="i green"><use href="#i-check"/></svg> Toutes les fonctionnalités demandées, sans framework ni backend</li>
+                    <li><svg class="i green"><use href="#i-check"/></svg> Code modulaire et commenté, réutilisable</li>
+                    <li><svg class="i green"><use href="#i-check"/></svg> Allers-retours API maîtrisés (asynchrone, erreurs, cache)</li>
+                </ul>
+                <h3 class="gold">Pistes d'amélioration</h3>
+                <p class="small">
+                    Suggestions de recherche (autocomplete) · notes personnelles sur les livres ·
+                    export/import de la bibliothèque en JSON · PWA hors-ligne
+                </p>
+                <p><strong>Merci de votre attention !</strong></p>
+            </section>
+
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/highlight.js"></script>
+    <script>
+        Reveal.initialize({
+            hash: true,
+            slideNumber: "c/t",
+            transition: "slide",
+            // Canevas plus grand : reveal.js le met automatiquement à
+            // l'échelle de l'écran, le contenu ne déborde plus du cadre
+            width: 1200,
+            height: 800,
+            margin: 0.05,
+            minScale: 0.2,
+            maxScale: 1.5,
+            plugins: [RevealHighlight]
+        });
+    </script>
+</body>
+</html>
