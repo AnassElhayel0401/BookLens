@@ -1,6 +1,7 @@
 /* ============================================================
    BookLens — style.css
    Palette chaude "bibliothèque" : bois, cuir, papier crème
+   Thèmes clair / sombre via [data-theme]
    ============================================================ */
 
 :root {
@@ -8,14 +9,29 @@
     --brown: #6d4c41;
     --brown-light: #8d6e63;
     --accent: #c0392b;
+    --accent-dark: #a93226;
     --gold: #d4a017;
     --cream: #faf6ef;
     --paper: #fffdf8;
     --text: #3b2f2a;
     --muted: #8a7a70;
+    --border: #e6dccb;
+    --chip-bg: #faf6ef;
     --shadow: 0 2px 10px rgba(62, 39, 35, 0.12);
     --shadow-hover: 0 8px 24px rgba(62, 39, 35, 0.22);
     --radius: 10px;
+}
+
+[data-theme="dark"] {
+    --cream: #211a16;
+    --paper: #2c241f;
+    --text: #ece2d4;
+    --muted: #a8978a;
+    --border: #46392f;
+    --chip-bg: #382e27;
+    --gold: #e0b13a;
+    --shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+    --shadow-hover: 0 8px 24px rgba(0, 0, 0, 0.5);
 }
 
 * {
@@ -32,6 +48,7 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    transition: background-color 0.25s, color 0.25s;
 }
 
 .container {
@@ -48,10 +65,15 @@ a {
     color: var(--accent);
 }
 
+.icon {
+    vertical-align: -0.18em;
+    flex-shrink: 0;
+}
+
 /* ---------- En-tête ---------- */
 
 .site-header {
-    background: linear-gradient(135deg, var(--brown-dark), var(--brown));
+    background: linear-gradient(135deg, #3e2723, #6d4c41);
     box-shadow: var(--shadow);
     position: sticky;
     top: 0;
@@ -68,11 +90,18 @@ a {
 }
 
 .logo {
-    font-size: 1.5rem;
+    font-size: 1.45rem;
     font-weight: bold;
-    color: var(--cream);
+    color: #faf6ef;
     text-decoration: none;
     letter-spacing: 0.5px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+}
+
+.logo .icon {
+    color: var(--gold);
 }
 
 .logo span {
@@ -81,16 +110,20 @@ a {
 
 .main-nav {
     display: flex;
-    gap: 0.5rem;
+    gap: 0.4rem;
+    align-items: center;
 }
 
 .nav-link {
-    color: var(--cream);
+    color: #faf6ef;
     text-decoration: none;
     padding: 0.45rem 0.9rem;
     border-radius: 999px;
     transition: background 0.2s;
     font-size: 0.95rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
 }
 
 .nav-link:hover {
@@ -115,13 +148,33 @@ a {
     display: none;
 }
 
+.theme-toggle {
+    background: rgba(255, 255, 255, 0.12);
+    border: none;
+    color: #faf6ef;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s, transform 0.2s;
+    margin-left: 0.3rem;
+}
+
+.theme-toggle:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: rotate(15deg);
+}
+
 /* ---------- Bandeau (hero) ---------- */
 
 .hero {
     background:
-        linear-gradient(rgba(62, 39, 35, 0.88), rgba(109, 76, 65, 0.88)),
+        linear-gradient(rgba(62, 39, 35, 0.9), rgba(78, 52, 46, 0.9)),
         repeating-linear-gradient(90deg, #5d4037 0 28px, #4e342e 28px 56px, #6d4c41 56px 84px);
-    color: var(--cream);
+    color: #faf6ef;
     text-align: center;
     padding: 3.2rem 1rem;
 }
@@ -141,12 +194,16 @@ a {
     font-style: italic;
 }
 
+.hero-small .hero-subtitle {
+    margin-bottom: 0;
+}
+
 /* ---------- Formulaire de recherche ---------- */
 
 .search-form {
     display: flex;
     gap: 0.6rem;
-    max-width: 640px;
+    max-width: 680px;
     margin: 0 auto;
     flex-wrap: wrap;
     justify-content: center;
@@ -183,8 +240,12 @@ a {
     font-size: 1rem;
     font-family: inherit;
     cursor: pointer;
-    transition: background 0.2s, transform 0.1s;
+    transition: background 0.2s, color 0.2s, transform 0.1s;
     text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
 }
 
 .btn:active {
@@ -197,7 +258,7 @@ a {
 }
 
 .btn-primary:hover {
-    background: #a93226;
+    background: var(--accent-dark);
 }
 
 .btn-saved {
@@ -208,28 +269,107 @@ a {
     background: #1b5e20;
 }
 
+.btn-outline {
+    background: transparent;
+    color: var(--brown);
+    border: 1.5px solid var(--brown-light);
+}
+
+[data-theme="dark"] .btn-outline {
+    color: var(--text);
+}
+
+.btn-outline:hover {
+    background: var(--brown);
+    color: #faf6ef;
+}
+
 .btn-block {
-    display: block;
+    display: flex;
     width: 100%;
     margin-top: 1rem;
 }
 
-.btn-remove {
-    background: transparent;
-    color: var(--accent);
-    border: 1.5px solid var(--accent);
-    width: 100%;
-    border-radius: 0 0 var(--radius) var(--radius);
-    border-left: none;
-    border-right: none;
-    border-bottom: none;
-    padding: 0.55rem;
-    font-size: 0.9rem;
+/* ---------- Barre d'outils (tri, filtres) ---------- */
+
+.toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.4rem;
 }
 
-.btn-remove:hover {
-    background: var(--accent);
-    color: #fff;
+.sort-label {
+    color: var(--muted);
+    font-size: 0.95rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.toolbar select,
+.shelf-search {
+    padding: 0.5rem 0.8rem;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    font-family: inherit;
+    font-size: 0.95rem;
+    background: var(--paper);
+    color: var(--text);
+}
+
+.toolbar select:focus,
+.shelf-search:focus {
+    outline: none;
+    border-color: var(--gold);
+}
+
+.shelf-search {
+    min-width: 230px;
+}
+
+.filter-tabs {
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+}
+
+.tab {
+    padding: 0.45rem 1rem;
+    border: 1.5px solid var(--border);
+    border-radius: 999px;
+    background: var(--paper);
+    color: var(--muted);
+    font-family: inherit;
+    font-size: 0.92rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.tab:hover {
+    border-color: var(--brown-light);
+    color: var(--text);
+}
+
+.tab.active {
+    background: var(--brown);
+    border-color: var(--brown);
+    color: #faf6ef;
+}
+
+.section-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.35rem;
+    color: var(--text);
+    margin-bottom: 1.2rem;
+}
+
+.section-title .icon {
+    color: var(--gold);
 }
 
 /* ---------- Messages d'état ---------- */
@@ -261,13 +401,16 @@ a {
 }
 
 .results-count {
-    margin-bottom: 1.2rem;
     color: var(--muted);
     font-style: italic;
 }
 
 .muted {
     color: var(--muted);
+}
+
+.empty-cta {
+    margin-top: 1rem;
 }
 
 /* ---------- Grille de livres ---------- */
@@ -283,11 +426,11 @@ a {
     border-radius: var(--radius);
     overflow: hidden;
     box-shadow: var(--shadow);
-    text-decoration: none;
     color: inherit;
     display: flex;
     flex-direction: column;
     transition: transform 0.2s, box-shadow 0.2s;
+    position: relative;
 }
 
 .book-card:hover {
@@ -310,12 +453,46 @@ a {
     align-items: center;
     justify-content: center;
     overflow: hidden;
+    position: relative;
+}
+
+[data-theme="dark"] .book-cover {
+    background: linear-gradient(135deg, #3a302a, #2e2620);
 }
 
 .book-cover img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+}
+
+/* Bouton cœur sur les cartes de résultats */
+.fav-toggle {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 34px;
+    height: 34px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(255, 253, 248, 0.92);
+    color: var(--accent);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow);
+    transition: transform 0.15s, background 0.2s;
+    z-index: 2;
+}
+
+.fav-toggle:hover {
+    transform: scale(1.12);
+}
+
+.fav-toggle.is-saved {
+    background: var(--accent);
+    color: #fff;
 }
 
 /* Placeholder stylisé quand il n'y a pas de couverture */
@@ -326,16 +503,11 @@ a {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 0.5rem;
+    gap: 0.6rem;
     padding: 1rem;
     text-align: center;
-    background:
-        linear-gradient(135deg, var(--brown-light), var(--brown));
-    color: var(--cream);
-}
-
-.cover-placeholder span {
-    font-size: 2.4rem;
+    background: linear-gradient(135deg, var(--brown-light), var(--brown));
+    color: #faf6ef;
 }
 
 .cover-placeholder p {
@@ -363,7 +535,7 @@ a {
 
 .book-author {
     font-size: 0.88rem;
-    color: var(--brown);
+    color: var(--brown-light);
     display: -webkit-box;
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
@@ -373,15 +545,91 @@ a {
 .book-year {
     font-size: 0.82rem;
     color: var(--muted);
-    margin-top: 0.25rem;
+    margin-top: 0.3rem;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    flex-wrap: wrap;
+}
+
+.card-rating {
+    color: var(--gold);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.2rem;
+    margin-left: 0.4rem;
+}
+
+/* ---------- Charger plus ---------- */
+
+.load-more-wrap {
+    text-align: center;
+    margin-top: 2rem;
+}
+
+/* ---------- Bibliothèque : statut + actions ---------- */
+
+.status-chip {
+    position: absolute;
+    bottom: 8px;
+    left: 8px;
+    padding: 0.15rem 0.7rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-family: sans-serif;
+    color: #fff;
+    background: var(--brown);
+}
+
+.status-chip.status-toread { background: #b07d2b; }
+.status-chip.status-reading { background: #1565c0; }
+.status-chip.status-read { background: #2e7d32; }
+
+.shelf-actions {
+    display: flex;
+    border-top: 1px solid var(--border);
+}
+
+.status-select {
+    flex: 1;
+    border: none;
+    background: transparent;
+    color: var(--text);
+    font-family: inherit;
+    font-size: 0.88rem;
+    padding: 0.55rem 0.7rem;
+    cursor: pointer;
+}
+
+.status-select:focus {
+    outline: none;
+}
+
+.btn-remove {
+    background: transparent;
+    color: var(--accent);
+    border: none;
+    border-left: 1px solid var(--border);
+    padding: 0.55rem 0.9rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    transition: background 0.2s, color 0.2s;
+}
+
+.btn-remove:hover {
+    background: var(--accent);
+    color: #fff;
 }
 
 /* ---------- Page détail ---------- */
 
 .back-link {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
     margin-bottom: 1.5rem;
-    color: var(--brown);
+    color: var(--brown-light);
     text-decoration: none;
     font-style: italic;
 }
@@ -413,14 +661,13 @@ a {
 
 .detail-content h1 {
     font-size: clamp(1.5rem, 3vw, 2.2rem);
-    color: var(--brown-dark);
     margin-bottom: 0.3rem;
 }
 
 .detail-author {
     font-size: 1.15rem;
     font-style: italic;
-    color: var(--brown);
+    color: var(--brown-light);
     margin-bottom: 1rem;
 }
 
@@ -432,11 +679,14 @@ a {
 }
 
 .meta-item {
-    background: var(--cream);
-    border: 1px solid #e6dccb;
+    background: var(--chip-bg);
+    border: 1px solid var(--border);
     border-radius: 999px;
     padding: 0.3rem 0.9rem;
     font-size: 0.9rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
 }
 
 .meta-rating {
@@ -450,7 +700,6 @@ a {
 
 .detail-content h2 {
     font-size: 1.15rem;
-    color: var(--brown-dark);
     border-bottom: 2px solid var(--gold);
     display: inline-block;
     padding-bottom: 0.15rem;
@@ -469,16 +718,26 @@ a {
 
 .tag {
     background: linear-gradient(135deg, var(--brown-light), var(--brown));
-    color: var(--cream);
+    color: #faf6ef;
     border-radius: 999px;
     padding: 0.3rem 0.85rem;
     font-size: 0.85rem;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.tag:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
 }
 
 /* ---------- Pied de page ---------- */
 
 .site-footer {
-    background: var(--brown-dark);
+    background: #2b1d19;
     color: #d7c9bc;
     text-align: center;
     padding: 1.2rem 0;
@@ -505,7 +764,7 @@ a {
     }
 
     .book-grid {
-        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
         gap: 1rem;
     }
 
@@ -514,6 +773,15 @@ a {
     }
 
     .search-form select {
+        width: 100%;
+    }
+
+    .toolbar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .shelf-search {
         width: 100%;
     }
 }

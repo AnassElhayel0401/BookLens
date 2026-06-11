@@ -17,23 +17,14 @@ function hideStatus() {
     statusBox.hidden = true;
 }
 
-function escapeHtml(text) {
-    const div = document.createElement("div");
-    div.textContent = String(text);
-    return div.innerHTML;
-}
-
-/** Génère les étoiles ★★★★☆ à partir d'une note sur 5. */
+/** Génère les étoiles SVG à partir d'une note sur 5. */
 function ratingStars(rating) {
     const full = Math.round(rating);
-    return "★".repeat(full) + "☆".repeat(5 - full);
-}
-
-function updateFavCount() {
-    const badge = document.getElementById("fav-count");
-    if (!badge) return;
-    const count = getFavorites().length;
-    badge.textContent = count > 0 ? count : "";
+    let stars = "";
+    for (let i = 1; i <= 5; i++) {
+        stars += icon("star", 15, i <= full);
+    }
+    return stars;
 }
 
 /** Configure le bouton "Ajouter / Retirer de ma bibliothèque". */
@@ -42,10 +33,10 @@ function setupFavButton(book) {
 
     function render() {
         if (isFavorite(book.id)) {
-            btn.textContent = "✓ Dans ma bibliothèque — Retirer";
+            btn.innerHTML = `${icon("check", 18)} Dans ma bibliothèque`;
             btn.classList.add("btn-saved");
         } else {
-            btn.textContent = "♥ Ajouter à ma bibliothèque";
+            btn.innerHTML = `${icon("heart", 18)} Ajouter à ma bibliothèque`;
             btn.classList.remove("btn-saved");
         }
     }
@@ -114,7 +105,6 @@ async function loadBook() {
         const coverId = (cached && cached.cover) ||
             (work.covers && work.covers.length > 0 ? work.covers[0] : null);
 
-        // Titre + document
         document.title = `${title} — BookLens`;
         document.getElementById("detail-title").textContent = title;
 
@@ -123,7 +113,12 @@ async function loadBook() {
         const coverUrl = getCoverUrl(coverId, "L");
         coverBox.innerHTML = coverUrl
             ? `<img src="${coverUrl}" alt="Couverture de ${escapeHtml(title)}">`
-            : `<div class="cover-placeholder cover-placeholder-lg"><span>📚</span><p>${escapeHtml(title)}</p></div>`;
+            : `<div class="cover-placeholder cover-placeholder-lg">${icon("bookOpen", 48)}<p>${escapeHtml(title)}</p></div>`;
+
+        // Lien vers la fiche Open Library
+        const olLink = document.getElementById("ol-link");
+        olLink.href = `https://openlibrary.org/works/${workId}`;
+        olLink.innerHTML = `${icon("external", 16)} Voir sur Open Library`;
 
         // Auteur(s) : cache de la recherche, sinon appel API
         let author = cached && cached.author ? cached.author : null;
@@ -137,13 +132,13 @@ async function loadBook() {
         const rating = (cached && cached.rating) || (await getWorkRating(workId));
         const metaItems = [];
         if (cached && cached.year) {
-            metaItems.push(`<span class="meta-item">📅 Première publication : ${cached.year}</span>`);
+            metaItems.push(`<span class="meta-item">${icon("calendar", 15)} Première publication : ${cached.year}</span>`);
         }
         if (rating) {
             metaItems.push(`<span class="meta-item meta-rating">${ratingStars(rating)} ${rating.toFixed(2)} / 5</span>`);
         }
         if (cached && cached.pages) {
-            metaItems.push(`<span class="meta-item">📄 ${cached.pages} pages (médiane)</span>`);
+            metaItems.push(`<span class="meta-item">${icon("pages", 15)} ${cached.pages} pages (médiane)</span>`);
         }
         document.getElementById("detail-meta").innerHTML = metaItems.join("");
 
@@ -152,12 +147,12 @@ async function loadBook() {
         document.getElementById("detail-description").textContent =
             description || "Aucune description disponible pour ce livre.";
 
-        // Sujets / genres
+        // Sujets / genres — chaque tag relance une recherche sur le sujet
         const subjectsBox = document.getElementById("detail-subjects");
         if (work.subjects && work.subjects.length > 0) {
             subjectsBox.innerHTML = work.subjects
                 .slice(0, 15)
-                .map((s) => `<span class="tag">${escapeHtml(s)}</span>`)
+                .map((s) => `<a class="tag" href="index.html?q=${encodeURIComponent(s)}">${icon("tag", 13)} ${escapeHtml(s)}</a>`)
                 .join("");
         } else {
             subjectsBox.innerHTML = "<p class='muted'>Aucun sujet renseigné.</p>";
@@ -178,5 +173,7 @@ async function loadBook() {
     }
 }
 
-loadBook();
+document.getElementById("back-link").innerHTML = `${icon("arrowLeft", 16)} Retour à la recherche`;
+initTheme();
 updateFavCount();
+loadBook();
