@@ -207,36 +207,35 @@
             <!-- 2. Sommaire -->
             <section>
                 <h2>Sommaire</h2>
-                <ol>
-                    <li>Contexte &amp; objectifs</li>
-                    <li>Architecture de l’application</li>
-                    <li>L’API Open Library</li>
-                    <li>Fonctionnalités &amp; démos live</li>
-                    <li>Zoom technique : AJAX &amp; localStorage</li>
-                    <li>Design &amp; responsive</li>
-                    <li>Conclusion</li>
+                <ol style="text-align:left;max-width:700px;margin:0 auto;font-size:0.85em;line-height:2.2;">
+                    <li><svg class="i gold"><use href="#i-book"/></svg> Contexte &amp; objectifs</li>
+                    <li><svg class="i gold"><use href="#i-chevron"/></svg> Architecture de l’application</li>
+                    <li><svg class="i gold"><use href="#i-search"/></svg> L’API Open Library</li>
+                    <li><svg class="i gold"><use href="#i-star"/></svg> Fonctionnalités &amp; démos live</li>
+                    <li><svg class="i gold"><use href="#i-trending"/></svg> Zoom technique : AJAX &amp; localStorage</li>
+                    <li><svg class="i gold"><use href="#i-palette"/></svg> Design &amp; responsive</li>
+                    <li><svg class="i gold"><use href="#i-check"/></svg> Conclusion</li>
                 </ol>
             </section>
 
             <!-- 3. Contexte -->
             <section>
                 <h2>Contexte &amp; objectifs</h2>
-                <div style="display:flex;align-items:center;gap:1.5rem;">
-                <div>
-                <p>Construire une application web <strong>100&nbsp;% côté client</strong> consommant une API REST publique.</p>
-                <ul>
-                    <li><svg class="i gold"><use href="#i-chevron"/></svg> Rechercher des livres parmi des millions de références</li>
-                    <li><svg class="i gold"><use href="#i-chevron"/></svg> Consulter la fiche détaillée d'un livre</li>
-                    <li><svg class="i gold"><use href="#i-chevron"/></svg> Se constituer une bibliothèque personnelle persistante</li>
-                </ul>
-                <p>
+                <div style="display:flex;align-items:center;gap:2rem;">
+                <div style="text-align:left;">
+                <p><strong>BookLens</strong> — un explorateur de livres utilisant la base Open Library (40M+ de livres).</p>
+                <h4 style="margin:0.4em 0 0.2em;">3 objectifs principaux :</h4>
+                <ol style="font-size:0.8em;">
+                    <li><svg class="i gold"><use href="#i-search"/></svg> <strong>Chercher</strong> des livres (par titre, auteur ou mot-clé)</li>
+                    <li><svg class="i gold"><use href="#i-book"/></svg> <strong>Consulter</strong> la fiche détaillée (couverture, note, description)</li>
+                    <li><svg class="i gold"><use href="#i-heart"/></svg> <strong>Sauvegarder</strong> ses favoris dans une bibliothèque personnelle</li>
+                </ol>
+                <p style="margin-top:0.5em;">
                     <span class="pill">HTML5</span>
                     <span class="pill">CSS3</span>
-                    <span class="pill">JavaScript vanilla</span>
-                    <span class="pill">fetch() / AJAX</span>
+                    <span class="pill">JS vanilla</span>
+                    <span class="pill">fetch()</span>
                     <span class="pill">localStorage</span>
-                    <span class="pill">Pas de framework</span>
-                    <span class="pill">Pas de backend</span>
                 </p>
                 </div>
                 <img class="slide-img" src="img/hero-illustration.jpeg" alt="Illustration BookLens" style="max-height:300px;flex-shrink:0;">
@@ -353,48 +352,58 @@ BookLens/
                 <p class="frame-label">Bibliothèque personnelle avec filtres et statuts de lecture</p>
             </section>
 
-            <!-- 8. Zoom AJAX -->
+            <!-- 8. Zoom technique : HTML & structure -->
             <section>
-                <h2>Zoom technique : AJAX avec fetch()</h2>
-                <pre><code class="language-javascript" data-trim>
-async function searchBooks(query, type = "q", limit = 20, page = 1, sort = "") {
-    const param = ["title", "author"].includes(type) ? type : "q";
-    let url = `${OL_BASE}/search.json?${param}=` +
-              `${encodeURIComponent(query)}&amp;limit=${limit}&amp;page=${page}`;
-    if (sort) url += `&amp;sort=${sort}`;
-
-    const response = await fetch(url);          // appel AJAX asynchrone
-    if (!response.ok) {
-        throw new Error(`Erreur API Open Library (${response.status})`);
-    }
-    const data = await response.json();
-    return { docs: data.docs || [], numFound: data.numFound || 0 };
-}
-                </code></pre>
-                <p class="small">Gestion des erreurs réseau + états de chargement (spinner) sur chaque page</p>
+                <h2>Zoom technique : Structure HTML</h2>
+                <div class="cols" style="align-items:flex-start;">
+                    <div style="text-align:left;">
+                        <p><strong>Balises principales utilisées :</strong></p>
+                        <table style="font-size:0.6em;">
+                            <tr><td><code>&lt;header&gt;</code></td><td>Barre de navigation</td></tr>
+                            <tr><td><code>&lt;main&gt;</code></td><td>Contenu principal</td></tr>
+                            <tr><td><code>&lt;section&gt;</code></td><td>Bloc logique (résultats, détail…)</td></tr>
+                            <tr><td><code>&lt;form&gt;</code></td><td>Formulaire de recherche</td></tr>
+                            <tr><td><code>&lt;input&gt;</code></td><td>Champ texte + sélecteur</td></tr>
+                            <tr><td><code>&lt;button&gt;</code></td><td>Actions (rechercher, favoris)</td></tr>
+                            <tr><td><code>&lt;img&gt;</code></td><td>Couvertures des livres</td></tr>
+                            <tr><td><code>&lt;a href&gt;</code></td><td>Liens entre pages</td></tr>
+                        </table>
+                    </div>
+                    <div style="text-align:left;">
+                        <p><strong>Organisation :</strong></p>
+                        <ul class="small" style="line-height:2;">
+                            <li>3 pages HTML = 3 vues distinctes</li>
+                            <li>1 fichier CSS commun (variables pour les thèmes)</li>
+                            <li>4 fichiers JS (1 par page + 1 partagé)</li>
+                        </ul>
+                    </div>
+                </div>
             </section>
 
-            <!-- 9. Zoom localStorage -->
+            <!-- 9. Zoom technique : CSS & JS -->
             <section>
-                <h2>Zoom technique : localStorage</h2>
-                <pre><code class="language-javascript" data-trim>
-const FAVORITES_KEY = "booklens_favorites";
-
-function getFavorites() {
-    try {
-        return JSON.parse(localStorage.getItem(FAVORITES_KEY)) || [];
-    } catch (e) { return []; }
-}
-
-function addFavorite(book) {
-    const favorites = getFavorites();
-    if (!favorites.some((b) => b.id === book.id)) {
-        favorites.push({ status: "toread", addedAt: Date.now(), ...book });
-        localStorage.setItem(FAVORITES_KEY, JSON.stringify(favorites));
-    }
-}
-                </code></pre>
-                <p class="small">Chaque favori : <code>{id, title, author, year, cover, status, addedAt}</code> — le thème sombre est aussi persisté</p>
+                <h2>Zoom technique : CSS &amp; JavaScript</h2>
+                <div class="cols" style="align-items:flex-start;">
+                    <div style="text-align:left;">
+                        <h4>CSS</h4>
+                        <ul class="small" style="line-height:1.8;">
+                            <li><strong>Variables CSS</strong> : <code>:root { --couleur: valeur }</code></li>
+                            <li><strong>Grille responsive</strong> : <code>display: grid</code></li>
+                            <li><strong>Mode sombre</strong> : on change les variables avec <code>[data-theme="dark"]</code></li>
+                            <li><strong>Media queries</strong> : adapter au mobile</li>
+                        </ul>
+                    </div>
+                    <div style="text-align:left;">
+                        <h4>JavaScript</h4>
+                        <ul class="small" style="line-height:1.8;">
+                            <li><strong>fetch(url)</strong> : appeler une API sans recharger</li>
+                            <li><strong>async/await</strong> : attendre la réponse</li>
+                            <li><strong>DOM</strong> : <code>document.getElementById()</code>, <code>innerHTML</code></li>
+                            <li><strong>localStorage</strong> : sauvegarder les favoris dans le navigateur</li>
+                            <li><strong>addEventListener</strong> : réagir aux clics</li>
+                        </ul>
+                    </div>
+                </div>
             </section>
 
             <!-- 10. Design -->
